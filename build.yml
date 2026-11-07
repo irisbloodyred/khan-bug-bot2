@@ -1,0 +1,28 @@
+name: Build KHAN BUG BOT APK
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Buildozer
+        run: |
+          pip install buildozer cython==0.29.33
+          sudo apt-get update && sudo apt-get install -y zip apk patch lld
+
+      - name: Build APK
+        run: buildozer -v android debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: KhanBugBot-APK
+          path: bin/*.apk
