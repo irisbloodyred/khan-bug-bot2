@@ -4,7 +4,7 @@ on: [push, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
@@ -13,10 +13,14 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zip patch autoconf libtool pkg-config
+
       - name: Install Buildozer
         run: |
-          pip install buildozer cython==0.29.33
-          sudo apt-get update && sudo apt-get install -y zip apk patch lld
+          pip install "buildozer==1.5.0" cython==0.29.33
 
       - name: Build APK
         run: buildozer -v android debug
