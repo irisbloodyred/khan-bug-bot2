@@ -16,14 +16,22 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y zip patch autoconf libtool pkg-config
+          sudo apt-get install -y zip patch autoconf libtool pkg-config openjdk-17-jdk
 
       - name: Install Buildozer
         run: |
           pip install "buildozer==1.5.0" cython==0.29.33
 
+      - name: Accept Android licenses
+        run: |
+          mkdir -p /home/runner/.buildozer/android/platform
+          export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+          yes | true
+
       - name: Build APK
         run: buildozer -v android debug
+        env:
+          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
