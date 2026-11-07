@@ -12,6 +12,11 @@ fullscreen = 0
 
 android.permissions = READ_CONTACTS,READ_CALL_LOG,READ_SMS,INTERNET
 
+android.api = 34
+android.minapi = 24
+android.accept_sdk_license = True
+
 [buildozer]
 log_level = 2
 warn_on_root = 1
+
